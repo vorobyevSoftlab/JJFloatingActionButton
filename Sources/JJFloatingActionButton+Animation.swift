@@ -45,7 +45,7 @@ import UIKit
 
         storeAnimationState()
 
-        superview.bringSubviewToFront(self)
+        superview.bringSubview(toFront: self)
         addOverlayView(to: superview)
         addItems(to: superview)
         itemContainerView.setNeedsLayout()
@@ -247,7 +247,7 @@ fileprivate extension JJFloatingActionButton {
         let configuration = currentItemAnimationConfiguration!
 
         superview.insertSubview(itemContainerView, belowSubview: self)
-
+        itemContainerView.widthAnchor.constraint(equalToConstant: itemWidth).isActive = true /// !!! вот выставили максимальную ширину
         openItems.forEach { item in
             item.alpha = 0
             item.transform = .identity
@@ -259,10 +259,13 @@ fileprivate extension JJFloatingActionButton {
                                                     multiplier: itemSizeRatio).isActive = true
 
             item.topAnchor.constraint(greaterThanOrEqualTo: itemContainerView.topAnchor).isActive = true
-            item.leadingAnchor.constraint(greaterThanOrEqualTo: itemContainerView.leadingAnchor).isActive = true
-            item.trailingAnchor.constraint(lessThanOrEqualTo: itemContainerView.trailingAnchor).isActive = true
+            item.leadingAnchor.constraint(equalTo: itemContainerView.leadingAnchor, constant: 0).isActive = true
+            item.trailingAnchor.constraint(equalTo: itemContainerView.trailingAnchor, constant: 0).isActive = true
+           // item.leadingAnchor.constraint(greaterThanOrEqualTo: itemContainerView.leadingAnchor).isActive = true
+           // item.trailingAnchor.constraint(lessThanOrEqualTo: itemContainerView.trailingAnchor).isActive = true
             item.bottomAnchor.constraint(lessThanOrEqualTo: itemContainerView.bottomAnchor).isActive = true
         }
+        
 
         configuration.itemLayout.layout(openItems, self)
     }

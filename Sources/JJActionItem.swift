@@ -105,6 +105,7 @@ import UIKit
         let titleLabel = UILabel()
         titleLabel.isUserInteractionEnabled = false
         titleLabel.numberOfLines = 1
+        titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: UIFont.systemFontSize)
         titleLabel.textColor = .white
         return titleLabel
@@ -238,21 +239,23 @@ fileprivate extension JJActionItem {
     }
 
     func createStaticConstraints() {
-        setContentHuggingPriority(.required, for: .horizontal)
-        setContentHuggingPriority(.required, for: .vertical)
+       // setContentHuggingPriority(.required, for: .horizontal)
+       // setContentHuggingPriority(.required, for: .vertical)
 
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriority(900), for: .horizontal)
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriority(900), for: .vertical)
+       // titleLabel.setContentCompressionResistancePriority(UILayoutPriority(900), for: .horizontal)
+       // titleLabel.setContentCompressionResistancePriority(UILayoutPriority(900), for: .vertical)
 
         var constraints: [NSLayoutConstraint] = []
         var constraint: NSLayoutConstraint
 
         let imageSizeMuliplier = CGFloat(1 / sqrt(2))
+        //для imageview расставили констрейны основываясь на ркужке
         constraints.append(imageView.centerXAnchor.constraint(equalTo: circleView.centerXAnchor))
         constraints.append(imageView.centerYAnchor.constraint(equalTo: circleView.centerYAnchor))
         constraints.append(imageView.widthAnchor.constraint(lessThanOrEqualTo: circleView.widthAnchor, multiplier: imageSizeMuliplier))
         constraints.append(imageView.heightAnchor.constraint(lessThanOrEqualTo: circleView.heightAnchor, multiplier: imageSizeMuliplier))
 
+        //ширина равна высоте у кружка
         constraints.append(circleView.widthAnchor.constraint(equalTo: circleView.heightAnchor))
 
         constraints.append(circleView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor))
@@ -299,8 +302,9 @@ fileprivate extension JJActionItem {
         case .left:
             dynamicConstraints.append(circleView.rightAnchor.constraint(equalTo: rightAnchor))
             dynamicConstraints.append(circleView.centerYAnchor.constraint(equalTo: centerYAnchor))
-            dynamicConstraints.append(titleLabel.rightAnchor.constraint(equalTo: circleView.leftAnchor, constant: -horizontalSpacing))
-            dynamicConstraints.append(titleLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor))
+            dynamicConstraints.append(titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -horizontalSpacing))
+            dynamicConstraints.append(titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor))
+            dynamicConstraints.append(titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 4))
         case .right:
             dynamicConstraints.append(circleView.leftAnchor.constraint(equalTo: leftAnchor))
             dynamicConstraints.append(circleView.centerYAnchor.constraint(equalTo: centerYAnchor))

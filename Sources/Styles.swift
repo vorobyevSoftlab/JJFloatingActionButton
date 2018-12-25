@@ -24,7 +24,8 @@
 
 import UIKit
 
-internal struct Styles {}
+internal struct Styles {
+}
 
 // MARK: - Colors
 

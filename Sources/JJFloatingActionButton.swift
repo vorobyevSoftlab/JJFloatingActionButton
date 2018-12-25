@@ -58,7 +58,8 @@ import UIKit
             configureButtonImage()
         }
     }
-
+    
+    @objc public var itemWidth: CGFloat = 100 
     /// The background color of the floating action button.
     /// Default is `UIColor(hue: 0.31, saturation: 0.37, brightness: 0.76, alpha: 1.00)`.
     ///
@@ -230,24 +231,9 @@ import UIKit
         setup()
     }
 
-    /// Initializes and returns a newly allocated floating action button object with the specified image and action.
-    ///
-    /// - Parameter image: The image of the action item. Default is `nil`.
-    /// - Parameter action: The action handler of the action item. Default is `nil`.
-    ///
-    /// - Returns: An initialized floating action button object.
-    ///
-    /// - SeeAlso: init(frame: CGRect)
-    ///
-    @objc public convenience init(image: UIImage, action: ((JJActionItem) -> Void)? = nil) {
-        self.init()
-        addItem(title: nil, image: image, action: action)
-    }
-
     internal lazy var itemContainerView: UIView = {
         let view = UIView()
         view.isUserInteractionEnabled = true
-        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -456,7 +442,7 @@ fileprivate extension JJFloatingActionButton {
 
     @objc func itemWasTapped(sender: JJActionItem) {
         close()
-        sender.callAction()
+        sender.action?(sender)
     }
 
     @objc func overlayViewWasTapped() {
@@ -470,7 +456,7 @@ fileprivate extension JJFloatingActionButton {
 
         if isSingleActionButton {
             let item = enabledItems.first
-            item?.callAction()
+            item?.action?(item!)
         } else {
             open()
         }
